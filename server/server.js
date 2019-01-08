@@ -39,12 +39,12 @@ app.get('/todos/:id', (req, res) => {
   if (!ObjectID.isValid(id)){
     res.status(404).send('Whoops! ID not valid.')
   };
-  User.findById(id).then((user) => {
-    console.log('user',user)
-    if (!user){
-      return res.status(404).send('User not found');
+  Todo.findById(id).then((todo) => {
+    console.log('todo',todo)
+    if (!todo){
+      return res.status(404).send();
     }
-    res.send({user});
+    res.send({todo});
   }).catch((e) => {
     res.status(400).send()
   })
