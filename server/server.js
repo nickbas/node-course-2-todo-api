@@ -1,5 +1,6 @@
 let express = require('express');
 let bodyParser = require('body-parser');
+let { ObjectID } = require('mongodb');
 
 let { mongoose } = require('./db/mongoose');
 let { Todo } = require('./models/todo');
@@ -30,8 +31,29 @@ app.get('/todos', (req,res) => {
   });
 });
 
+app.get('/todos/:id', (req, res) => {
+  // res.send(req.params)
+  let id = req.params.id;
+  //validate id using isValid
+   //404 - send back empty body
+  if (!ObjectID.isValid(id)){
+    res.status(404).send('Whoops! ID not valid.')
+  };
+  User.findById(id).then((user) => {
+    console.log('user',user)
+    if (!user){
+      return res.status(404).send('User not found');
+    }
+    res.send({user});
+  }).catch((e) => {
+    res.status(400).send()
+  })
+});
+
 app.listen(3000, () => {
   console.log('Started on port 3000')
 });
+
+
 
 module.exports = { app };

@@ -31,7 +31,7 @@ if (!ObjectID.isValid(id)){
 //User.findById
 
 User.findById(id).then((user) => {
-  console.log('user',user)
+    console.log('user',user)
   if (!user){
     return console.log('User not found')
   }
