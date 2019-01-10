@@ -97,6 +97,23 @@ app.patch('/todos/:id', (req,res) => {
   });
 });
 
+
+// POST /users (similar would be the new todo post
+// Pick instead of pulling off properties like we do for the patch method: email and password
+app.post('/users', (req, res) => {
+  console.log('posting user')
+  let body = _.pick(req.body, ['email','password']);
+  let user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  }).then((token) => {
+      res.header('x-auth', token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Started on port ${port}`)
 });
